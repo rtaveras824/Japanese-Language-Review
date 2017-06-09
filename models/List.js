@@ -24,4 +24,4 @@ var ListSchema = new Schema({
 
 var List = mongoose.model('List', ListSchema);
 
-modules.exports = List;
+module.exports = List;

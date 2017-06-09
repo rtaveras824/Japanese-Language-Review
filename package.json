@@ -4,6 +4,7 @@
   "description": "A Japanese study companion",
   "main": "server.js",
   "scripts": {
+    "seed": "node seed",
     "test": "mocha"
   },
   "repository": {
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/rtaveras824/Japanese-Language-Review#readme",
   "dependencies": {
+    "mongojs": "^2.4.0",
     "mongoose": "^4.10.5"
   }
 }
