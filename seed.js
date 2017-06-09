@@ -5,7 +5,7 @@ const seedLists = [
 	{
 		_id: ObjectId('5863f68da5a1ac0ecc852557'),
 		name: 'Test1',
-		card: [
+		cards: [
 			ObjectId('5863f68da5a1ac0ecc852540'),
 			ObjectId('5863f68da5a1ac0ecc852541'),
 			ObjectId('5863f68da5a1ac0ecc852542')
@@ -16,7 +16,7 @@ const seedLists = [
 	{
 		_id: ObjectId('5863f68da5a1ac0ecc852558'),
 		name: 'Test2',
-		card: [
+		cards: [
 			ObjectId('5863f68da5a1ac0ecc852543'),
 			ObjectId('5863f68da5a1ac0ecc852544'),
 			ObjectId('5863f68da5a1ac0ecc852545')
