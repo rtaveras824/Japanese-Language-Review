@@ -1,0 +1,27 @@
+{
+  "name": "japanese-language-review",
+  "version": "1.0.0",
+  "description": "A Japanese study companion",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rtaveras824/Japanese-Language-Review.git"
+  },
+  "keywords": [
+    "Japanese",
+    "Language",
+    "Study"
+  ],
+  "author": "Reuben",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rtaveras824/Japanese-Language-Review/issues"
+  },
+  "homepage": "https://github.com/rtaveras824/Japanese-Language-Review#readme",
+  "dependencies": {
+    "mongoose": "^4.10.5"
+  }
+}
