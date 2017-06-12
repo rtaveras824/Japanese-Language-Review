@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
+
+import MainPage from './MainPage.jsx';
 
 class Base extends Component {
 	constructor(props) {
@@ -10,7 +13,9 @@ class Base extends Component {
 		return (
 			<div>
 				<div>Base Page</div>
-				{ this.props.children }
+				<Switch>
+					<Route exact path='/' component={ MainPage } />
+				</Switch>
 			</div>
 		)
 	}
