@@ -1,9 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const CardList = (props) => {
-	const cardItems = props.cards.map(function(card, i) {
+const CardList = ({ deckId, cards }) => {
+	const cardItems = cards.map(function(card, i) {
 		return (
-			<div key={ i }>{ card.sideA }</div>
+			<div key={ i }>
+				<div>{ card.sideA }</div>
+				<Link to={`/cards/${deckId}/${i}`}>Study</Link>
+			</div>
 		)
 	});
 

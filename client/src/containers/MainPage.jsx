@@ -10,7 +10,7 @@ class MainPage extends Component {
 
 		this.state = {
 			decks: [],
-			selectedDeck: null,
+			selectedDeck: { _id: 1 },
 			cards: []
 		}
 
@@ -48,7 +48,7 @@ class MainPage extends Component {
 							this.retrieveCards(selectedDeck._id);
 						}
 					} />
-				<CardList cards={ this.state.cards } />
+				<CardList deckId={ this.state.selectedDeck._id } cards={ this.state.cards } />
 			</div>
 		)
 	}

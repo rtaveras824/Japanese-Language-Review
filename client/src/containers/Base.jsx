@@ -16,7 +16,7 @@ class Base extends Component {
 				<div>Base Page</div>
 				<Switch>
 					<Route exact path='/' component={ MainPage } />
-					<Route path='/cards/:deck_id' component= { CardPage } />
+					<Route path='/cards/:deck_id/:card_number' component= { CardPage } />
 				</Switch>
 			</div>
 		)

@@ -9,7 +9,7 @@ const DeckList = ({ decks, makeActiveDeck }) => {
 				<div onClick={ () => makeActiveDeck(deck) }>
 					{ deck.name }
 				</div>
-				<Link to={`/cards/${deck._id}`}>Study</Link>
+				<Link to={`/cards/${deck._id}/0`}>Study</Link>
 			</div>
 		)
 	})
