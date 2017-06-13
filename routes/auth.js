@@ -4,6 +4,7 @@ const passport = require('passport');
 const router = new express.Router();
 
 router.post('/login', (req, res, next) => {
+	console.log('passport', req.body);
 	return passport.authenticate('local-login', (err, token, data) => {
 		if (err) {
 			if (err.name === 'IncorrectCredentialsError') {
@@ -18,6 +19,8 @@ router.post('/login', (req, res, next) => {
 				message: 'Could not process form.'
 			});
 		}
+
+		console.log('token', token, 'data', data);
 
 		return res.json({
 			success: true,

@@ -22,9 +22,11 @@ require('./models/List');
 require('./models/Card');
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(express.static('./client/dist'));
 app.use(express.static('./server/static'));
+
 
 const localLoginStrategy = require('./passport/local-login');
 passport.use('local-login', localLoginStrategy);

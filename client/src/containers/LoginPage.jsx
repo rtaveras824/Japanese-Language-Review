@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import axios from 'axios';
+import Auth from '../../../modules/Auth';
 
 import LoginForm from '../components/LoginForm.jsx';
 
@@ -11,7 +13,8 @@ class LoginPage extends Component {
 			user: {
 				display_name: '',
 				password: ''
-			}
+			},
+			redirect: false
 		}
 
 		this.changeUser = this.changeUser.bind(this);
@@ -30,21 +33,37 @@ class LoginPage extends Component {
 	}
 
 	processForm(event) {
+		event.preventDefault();
+
+		const display_name = this.state.user.display_name;
+		const password = this.state.user.password;
+
 		const user = this.state.user;
 
 		axios.post('/auth/login', user)
 			.then(function(response) {
-				console.log(response);
-				<Redirect to='/' />
+				Auth.authenticateUser(response.data.token);
+				this.setState({
+					redirect: true
+				});
+			}.bind(this)).catch(function(error) {
+				console.log(error);
 			});
 	}
 
 	render() {
 		return (
-			<LoginForm 
-				onSubmit={ this.processForm }
-				onChange={ this.changeUser } 
-				/>
+			<div>
+				{ Auth.isUserAuthenticated() ? (
+						this.state.redirect && <Redirect to="/" push />
+					) : (
+						<LoginForm 
+							onSubmit={ this.processForm }
+							onChange={ this.changeUser } 
+							/>
+					)
+				}
+			</div>
 		);
 	}
 }

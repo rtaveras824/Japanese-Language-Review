@@ -21,20 +21,17 @@ module.exports = new PassportLocalStrategy({
 		if (!user) {
 			const error = new Error('Incorrect username');
 			error.name = 'IncorrectCredentialsError';
-			console.log('1');
 			return done(error);
 		}
 
 		return user.comparePassword(userData.password, (passwordErr, isMatch) => {
 			if (passwordErr) { 
-				console.log('1');
 				return done(passwordErr); 
 			}
-			console.log('1');
+			
 			if (!isMatch) {
 				const error = new Error('Incorrect password.');
 				error.name = 'IncorrectCredentialsError';
-				console.log('1');
 				return done(error);
 			}
 
