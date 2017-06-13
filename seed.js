@@ -1,6 +1,23 @@
 const mongojs = require('mongojs');
 const ObjectId = mongojs.ObjectId;
 
+const seedUsers = [
+	{
+		_id: ObjectId('5863f68da5a1ac0ecc852000'),
+		display_name: 'root',
+		password: 'password',
+		created: new Date(),
+		updated: new Date()
+	},
+	{
+		_id: ObjectId('5863f68da5a1ac0ecc852001'),
+		display_name: 'rtaveras824',
+		password: 'password',
+		created: new Date(),
+		updated: new Date()
+	}
+];
+
 const seedLists = [
 	{
 		_id: ObjectId('5863f68da5a1ac0ecc852557'),
@@ -31,6 +48,7 @@ const seedCards = [
 		_id: ObjectId('5863f68da5a1ac0ecc852540'),
 		sideA: '私のせんもんは、工学です。',
 		sideB: 'My major is engineering.',
+		photoUrl: 'http://www.diploma-degree.com/Degree/700-3253-Civil+Engineering+Degree.jpg',
 		created: new Date(),
 		updated: new Date()
 	},
@@ -38,6 +56,7 @@ const seedCards = [
 		_id: ObjectId('5863f68da5a1ac0ecc852541'),
 		sideA: 'うちの学校では、毎月テストがあります。',
 		sideB: 'There is a test at my school every month.',
+		photoUrl: 'http://images.collegexpress.com/article/test-prep-timeline-high-school.jpg',
 		created: new Date(),
 		updated: new Date()
 	},
@@ -45,6 +64,7 @@ const seedCards = [
 		_id: ObjectId('5863f68da5a1ac0ecc852542'),
 		sideA: '毎月どのくらい家賃を払っていますか？',
 		sideB: 'How much do you pay for rent each month?',
+		photoUrl: 'https://rdcnewscdn.realtor.com/wp-content/uploads/2013/11/payrent.jpg',
 		created: new Date(),
 		updated: new Date()
 	},
@@ -86,7 +106,11 @@ db.on('connect', function() {
 // Clear database
 db.dropDatabase();
 
-// Seed lists and cards
+
+seedUsers.map(function(user) {
+	return db.users.save(user);
+});
+
 seedLists.map(function(list) {
 	return db.lists.save(list);
 });
