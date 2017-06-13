@@ -23,11 +23,11 @@ const UserSchema = new Schema({
 	}
 });
 
-UserSchema.methods.comparePassword = function comparePassword(password, callback) {
+UserSchema.methods.comparePassword = function(password, callback) {
 	bcryptjs.compare(password, this.password, callback);
 };
 
-UserSchema.pre('save', function saveHook(next) {
+UserSchema.pre('save', function(next) {
 	const user = this;
 
 	// proceed further only if the password is modified or user is new

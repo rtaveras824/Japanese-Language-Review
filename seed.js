@@ -1,5 +1,7 @@
 const mongojs = require('mongojs');
 const ObjectId = mongojs.ObjectId;
+const async = require('async');
+const bcryptjs = require('bcryptjs');
 
 const seedUsers = [
 	{
@@ -106,6 +108,18 @@ db.on('connect', function() {
 // Clear database
 db.dropDatabase();
 
+const hashPassword = function(user, callback) {
+	bcryptjs.hash(user.password, 10, function(err, hash) {
+		if (err) throw err;
+
+		user.password = hash;
+		callback(null, user);
+	});
+};
+
+async.map(seedUsers, hashPassword, function(error, result) {
+	db.users.save(result);
+});
 
 seedUsers.map(function(user) {
 	return db.users.save(user);
