@@ -27,6 +27,7 @@ app.use(bodyParser.json());
 app.use(express.static('./client/dist'));
 app.use(express.static('./server/static'));
 
+app.use(passport.initialize());
 
 const localLoginStrategy = require('./passport/local-login');
 const localSignupStrategy = require('./passport/local-signup');
