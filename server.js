@@ -29,7 +29,9 @@ app.use(express.static('./server/static'));
 
 
 const localLoginStrategy = require('./passport/local-login');
+const localSignupStrategy = require('./passport/local-signup');
 passport.use('local-login', localLoginStrategy);
+passport.use('local-signup', localSignupStrategy);
 
 const apiRoutes = require('./routes/api');
 const authRoutes = require('./routes/auth');

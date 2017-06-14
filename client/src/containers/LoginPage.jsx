@@ -55,7 +55,7 @@ class LoginPage extends Component {
 		return (
 			<div>
 				{ Auth.isUserAuthenticated() ? (
-						this.state.redirect && <Redirect to="/" push />
+						<Redirect to="/" push />
 					) : (
 						<LoginForm 
 							onSubmit={ this.processForm }
