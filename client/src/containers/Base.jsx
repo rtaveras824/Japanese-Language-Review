@@ -4,6 +4,7 @@ import Auth from '../../../modules/Auth';
 
 import MainPage from './MainPage.jsx';
 import LoginPage from './LoginPage.jsx';
+import SignUpPage from './SignUpPage.jsx';
 import CardPage from './CardPage.jsx';
 
 const AuthButton = withRouter(({ history }) => {
@@ -38,6 +39,7 @@ class Base extends Component {
 				<Switch>
 					<Route exact path='/' component={ MainPage } />
 					<Route path='/auth/login' component={ LoginPage } />
+					<Route path='/auth/signup' component={ SignUpPage } />
 					<Route path='/cards/:deck_id/:card_number' component= { CardPage } />
 				</Switch>
 			</div>
