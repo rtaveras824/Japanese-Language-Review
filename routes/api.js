@@ -58,8 +58,17 @@ router.get('/cards/:card_id', function(req, res, next) {
 });
 
 router.post('/addlist', function(req, res, next) {
-	console.log(req.body);
-	return res.json(req.body);
+	console.log('api user id', req.user_id);
+	var newList = new List({
+		name: req.body.name,
+		author: req.user_id,
+		public: req.body.public
+	});
+	newList.save(function(err, newEntry) {
+		if (err) return err;
+		console.log(newEntry);
+		res.send(newEntry);
+	});
 });
 
 module.exports = router;

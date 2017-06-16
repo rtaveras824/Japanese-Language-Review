@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import Auth from '../../../modules/Auth';
 
 import AddDeckForm from '../components/AddDeckForm.jsx';
 
@@ -51,7 +52,7 @@ class AddDeckPage extends Component {
 	processForm(event) {
 		event.preventDefault();
 
-		axios.post('/api/addlist', this.state.deck)
+		axios.post('/api/addlist', this.state.deck, this.setHeader())
 			.then(function(response) {
 				console.log(response);
 				this.setState({
