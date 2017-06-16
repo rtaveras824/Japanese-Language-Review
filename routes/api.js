@@ -7,9 +7,34 @@ const List = mongoose.model('List');
 const Card = mongoose.model('Card');
 
 router.get('/lists', function(req, res, next) {
-	return List.find({})
+	return List.find({
+		$or: [
+			{
+				$and: [{
+					author: ObjectId(req.user_id)
+				}, {
+					public: false
+				}]
+			},
+			{ public: true }
+		]
+	})
 		.exec(function(err, lists) {
-			res.json(lists);
+			
+			var publicSplitList = {
+				public: [],
+				private: []
+			};
+			lists.map((list, i) => {
+				if (list.public) {
+					publicSplitList.public.push(list);
+				} else {
+					publicSplitList.private.push(list);
+				}
+			});
+			console.log(publicSplitList);
+
+			res.json(publicSplitList);
 		});
 });
 
@@ -30,6 +55,11 @@ router.get('/cards/:card_id', function(req, res, next) {
 		.exec(function(err, card) {
 			res.json(card);
 		});
+});
+
+router.post('/addlist', function(req, res, next) {
+	console.log(req.body);
+	return res.json(req.body);
 });
 
 module.exports = router;

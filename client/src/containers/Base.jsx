@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { Switch, Route, Link, withRouter } from 'react-router-dom';
 import Auth from '../../../modules/Auth';
 
+import LandingPage from './LandingPage.jsx';
 import MainPage from './MainPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import SignUpPage from './SignUpPage.jsx';
+import AddDeckPage from './AddDeckPage.jsx';
 import CardPage from './CardPage.jsx';
 
 const AuthButton = withRouter(({ history }) => {
@@ -13,10 +15,13 @@ const AuthButton = withRouter(({ history }) => {
 		history.push('/');
 	}
 	return Auth.isUserAuthenticated() ? (
-		<p onClick={ () => { 
-			history.push('/'); 
-			Auth.deauthenticateUser(); 
-		}}>Welcome</p>
+		<div>
+			<p onClick={ () => { 
+				Auth.deauthenticateUser(); 
+				history.push('/'); 
+			}}>Welcome</p>
+			<Link to='/adddeck'>Add Deck</Link>
+		</div>
 	) : (
 		<Link to='/auth/login'>Login</Link>
 	)
@@ -37,9 +42,15 @@ class Base extends Component {
 					<AuthButton />
 				</div>
 				<Switch>
-					<Route exact path='/' component={ MainPage } />
+					{ Auth.isUserAuthenticated() ? (
+						<Route exact path='/' component={ MainPage } />
+					) : (
+						<Route exact path='/' component={ LandingPage } />
+					)
+					}
 					<Route path='/auth/login' component={ LoginPage } />
 					<Route path='/auth/signup' component={ SignUpPage } />
+					<Route path='/adddeck' component={ AddDeckPage } />
 					<Route path='/cards/:deck_id/:card_number' component= { CardPage } />
 				</Switch>
 			</div>

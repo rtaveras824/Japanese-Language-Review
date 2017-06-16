@@ -34,10 +34,6 @@ class LoginPage extends Component {
 
 	processForm(event) {
 		event.preventDefault();
-
-		const display_name = this.state.user.display_name;
-		const password = this.state.user.password;
-
 		const user = this.state.user;
 
 		axios.post('/auth/login', user)

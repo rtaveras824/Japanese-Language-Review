@@ -20,7 +20,8 @@ class CardPage extends Component {
 		this.cycleBack = this.cycleBack.bind(this);
 		this.cycleForward = this.cycleForward.bind(this);
 		this.processAnswer = this.processAnswer.bind(this);
-		this.voice = this.voice.bind(this);
+		this.japaneseVoice = this.japaneseVoice.bind(this);
+		this.englishVoice = this.englishVoice.bind(this);
 	}
 
 	componentWillMount() {
@@ -135,8 +136,12 @@ class CardPage extends Component {
 	}
 
 	//responseVoice comes from index.html script tag
-	voice() {
+	japaneseVoice() {
 		responsiveVoice.speak(this.state.selectedCard.sideA, 'Japanese Female');
+	}
+
+	englishVoice() {
+		responsiveVoice.speak(this.state.selectedCard.sideB, 'US English Male');
 	}
 
 	render() {
@@ -147,7 +152,8 @@ class CardPage extends Component {
 					correct={ this.state.correct }
 					changeAnswer={ this.changeAnswer }
 					processAnswer={ this.processAnswer } />
-				<div onClick={ this.voice }>Voice</div>
+				<div onClick={ this.japaneseVoice }>Japanese Voice</div>
+				<div onClick={ this.englishVoice }>English Voice</div>
 				<div onClick={ this.cycleBack }>&lt;</div>
 				<div onClick={ this.cycleForward }>&gt;</div>
 			</div>

@@ -24,6 +24,8 @@ const seedLists = [
 	{
 		_id: ObjectId('5863f68da5a1ac0ecc852557'),
 		name: 'Test1',
+		author: ObjectId('5863f68da5a1ac0ecc852000'),
+		public: true,
 		cards: [
 			ObjectId('5863f68da5a1ac0ecc852540'),
 			ObjectId('5863f68da5a1ac0ecc852541'),
@@ -35,6 +37,8 @@ const seedLists = [
 	{
 		_id: ObjectId('5863f68da5a1ac0ecc852558'),
 		name: 'Test2',
+		author: ObjectId('5863f68da5a1ac0ecc852000'),
+		public: false,
 		cards: [
 			ObjectId('5863f68da5a1ac0ecc852543'),
 			ObjectId('5863f68da5a1ac0ecc852544'),
@@ -105,9 +109,6 @@ db.on('connect', function() {
 	console.log('Database connected');
 });
 
-// Clear database
-db.dropDatabase();
-
 const hashPassword = function(user, callback) {
 	bcryptjs.hash(user.password, 10, function(err, hash) {
 		if (err) throw err;
@@ -116,6 +117,9 @@ const hashPassword = function(user, callback) {
 		callback(null, user);
 	});
 };
+
+// Clear database
+db.dropDatabase();
 
 async.map(seedUsers, hashPassword, function(error, result) {
 	db.users.save(result);

@@ -8,6 +8,14 @@ var ListSchema = new Schema({
 		required: true,
 		trim: true
 	},
+	author: {
+		type: Schema.Types.ObjectId,
+		ref: 'User'
+	},
+	public: {
+		type: Boolean,
+		required: true
+	},
 	cards: [{
 		type: Schema.Types.ObjectId,
 		ref: 'Card'

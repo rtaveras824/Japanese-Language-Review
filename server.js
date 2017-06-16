@@ -34,10 +34,11 @@ const localSignupStrategy = require('./passport/local-signup');
 passport.use('local-login', localLoginStrategy);
 passport.use('local-signup', localSignupStrategy);
 
+const authCheckMiddleware = require('./middleware/auth-check');
 const apiRoutes = require('./routes/api');
 const authRoutes = require('./routes/auth');
 
-app.use('/api', apiRoutes);
+app.use('/api', authCheckMiddleware, apiRoutes);
 app.use('/auth', authRoutes);
 
 app.get('*', function(req, res) {
