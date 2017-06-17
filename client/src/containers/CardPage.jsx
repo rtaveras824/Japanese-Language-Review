@@ -137,11 +137,11 @@ class CardPage extends Component {
 
 	//responseVoice comes from index.html script tag
 	japaneseVoice() {
-		responsiveVoice.speak(this.state.selectedCard.sideA, 'Japanese Female');
+		responsiveVoice.speak(this.state.selectedCard.side_a, 'Japanese Female');
 	}
 
 	englishVoice() {
-		responsiveVoice.speak(this.state.selectedCard.sideB, 'US English Male');
+		responsiveVoice.speak(this.state.selectedCard.side_b, 'US English Male');
 	}
 
 	render() {

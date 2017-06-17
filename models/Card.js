@@ -3,17 +3,17 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var CardSchema = new Schema({
-	sideA: {
+	side_a: {
 		type: String,
 		required: true,
 		trim: true
 	},
-	sideB: {
+	side_b: {
 		type: String,
 		required: true,
 		trim: true
 	},
-	photoUrl: String,
+	photo_url: String,
 	created: {
 		type: Date,
 		default: Date.now

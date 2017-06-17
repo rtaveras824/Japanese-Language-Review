@@ -71,4 +71,22 @@ router.post('/addlist', function(req, res, next) {
 	});
 });
 
+router.post('/addcard', function(req, res, next) {
+	console.log('add card');
+	var newCard = new Card({
+		side_a: req.body.side_a,
+		side_b: req.body.side_b,
+		photo_url: req.body.photo_url
+	});
+	
+	newCard.save(function(err, newEntry) {
+		if (err) return err;
+		List.findByIdAndUpdate(req.body.deck_id, { $push: { cards: newEntry._id }})
+			.exec(function(err, result) {
+				console.log(JSON.stringify(result));
+				res.json(result);
+			})
+	});
+});
+
 module.exports = router;
