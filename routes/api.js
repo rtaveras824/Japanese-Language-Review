@@ -83,8 +83,7 @@ router.post('/addcard', function(req, res, next) {
 		if (err) return err;
 		List.findByIdAndUpdate(req.body.deck_id, { $push: { cards: newEntry._id }})
 			.exec(function(err, result) {
-				console.log(JSON.stringify(result));
-				res.json(result);
+				res.json(newEntry);
 			})
 	});
 });

@@ -127,7 +127,7 @@ class CardPage extends Component {
 	}
 
 	processAnswer(event) {
-		if (this.state.answer == this.state.selectedCard.sideB) {
+		if (this.state.answer == this.state.selectedCard.side_b) {
 			console.log('Correct!');
 			this.setState({
 				correct: true

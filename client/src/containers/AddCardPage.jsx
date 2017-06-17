@@ -61,6 +61,12 @@ class AddCardPage extends Component {
 		axios.post('/api/addcard', this.state.card, this.setHeader())
 			.then((response) => {
 				console.log(response);
+				var cards = this.state.cards;
+				cards.push(response.data);
+				
+				this.setState({
+					cards
+				});
 			});
 	}
 
