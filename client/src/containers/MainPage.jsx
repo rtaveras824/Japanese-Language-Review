@@ -70,10 +70,11 @@ class MainPage extends Component {
 
 	retrieveCards(deckId) {
 		console.log('retrieveCard');
-		axios.get('/api/lists/' + deckId)
+		axios.get('/api/lists/' + deckId, Auth.setHeader())
 			.then(function(list) {
 				console.log('list', list);
 				this.setState({
+					saved: list.data.saved,
 					cards: list.data.cards
 				});
 			}.bind(this));
@@ -85,13 +86,29 @@ class MainPage extends Component {
 	}
 
 	toggleSaved() {
-		axios.post('/api/addsaved', {
-			list_id: this.state.selectedDeck._id
-			},
-			Auth.setHeader())
-			.then(function(response) {
-				console.log('user list saved', response);
-			});
+		if (this.state.saved) {
+			axios.post('/api/removesaved', {
+				list_id: this.state.selectedDeck._id
+				},
+				Auth.setHeader())
+				.then(function(response) {
+					console.log('saved removed');
+					this.setState({
+						saved: false
+					});
+				}.bind(this));
+		} else {
+			axios.post('/api/addsaved', {
+				list_id: this.state.selectedDeck._id
+				},
+				Auth.setHeader())
+				.then(function(response) {
+					console.log('user list saved', response);
+					this.setState({
+						saved: true
+					});
+				}.bind(this));
+		}
 	}
 
 	render() {
@@ -102,7 +119,7 @@ class MainPage extends Component {
 				<div onClick={ () => this.retrieveDecks('saved') }>Saved Lists</div>
 				<div onClick={ () => this.retrieveDecks('public') }>Public Lists</div>
 				<DeckList type={ this.state.type } decks={ this.state.decks } makeActiveDeck={ this.makeActiveDeck } />
-				<CardList deckId={ this.state.selectedDeck._id } cards={ this.state.cards } toggleSaved={ this.toggleSaved } />
+				<CardList deckId={ this.state.selectedDeck._id } cards={ this.state.cards } saved={ this.state.saved } toggleSaved={ this.toggleSaved } />
 			</div>
 		)
 	}

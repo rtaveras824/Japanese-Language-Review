@@ -96,6 +96,7 @@ router.get('/lists/:list_id', function(req, res, next) {
 	const listId = req.params.list_id;
 
 	return List.findById(listId)
+		.lean()
 		.populate('cards')
 		.exec(function(err, list) {
 			return UserList.find({
@@ -106,9 +107,12 @@ router.get('/lists/:list_id', function(req, res, next) {
 				}]
 			})
 			.exec(function(err, saved) {
-				console.log(saved);
+				if (saved.length > 0) 
+					list.saved = true;
+				else
+					list.saved = false;
 				res.json(list);
-			})
+			});
 		});
 });
 
@@ -165,6 +169,23 @@ router.post('/addsaved', function(req, res, next) {
 		if (err) return err;
 		res.send(newEntry);
 	});
+});
+
+router.post('/removesaved', function(req, res, next) {
+	const listId = req.body.list_id;
+	const userId = req.user_id;
+
+	return UserList.remove({
+		$and: [{
+			user_id: userId
+		}, {
+			list_id: listId
+		}]
+	})
+		.exec(function(response) {
+			console.log('deleted', response);
+			res.send(response);
+		});
 });
 
 module.exports = router;
