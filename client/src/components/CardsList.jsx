@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const CardList = ({ deckId, cards }) => {
+const CardList = ({ deckId, cards, toggleSaved }) => {
 	const cardItems = cards.map(function(card, i) {
 		return (
 			<div key={ i }>
@@ -13,6 +13,7 @@ const CardList = ({ deckId, cards }) => {
 
 	return (
 		<div>
+			<button onClick={ toggleSaved }>Save</button>
 			<Link to={`/addcard/${ deckId }`}>Add Cards</Link>
 			{ cardItems }
 		</div>

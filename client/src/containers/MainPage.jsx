@@ -13,27 +13,18 @@ class MainPage extends Component {
 			type: '',
 			decks: [],
 			selectedDeck: { _id: 1 },
-			cards: []
+			cards: [],
+			saved: false
 		}
 
 		this.retrieveCards = this.retrieveCards.bind(this);
 		this.retrieveDecks = this.retrieveDecks.bind(this);
 		this.makeActiveDeck = this.makeActiveDeck.bind(this);
+		this.toggleSaved = this.toggleSaved.bind(this);
 	}
 
 	componentWillMount() {
-		axios.get('/api/publiclists', Auth.setHeader())
-			.then(function(decks) {
-				console.log(decks);
-
-				this.setState({
-					decks: decks.data,
-					selectedDeck: decks.data[0]
-				});
-
-				this.retrieveCards(decks.data[0]._id);
-				
-			}.bind(this));
+		this.retrieveDecks('public');
 	}
 
 	retrieveDecks(type) {
@@ -57,14 +48,23 @@ class MainPage extends Component {
 		}
 
 		axios.get(`/api/${url}`, Auth.setHeader())
-			.then(function(decks) {
+			.then(function(response) {
+				let decks = response.data;
+				if (type === 'saved') {
+					console.log('decks', decks);
+					let savedDecks = decks.map((deck, i) => {
+						return deck.list_id;
+					});
+					decks = savedDecks;
+					console.log('decks2', decks);
+				}
 				this.setState({
 					type,
-					decks: decks.data,
-					selectedDeck: decks.data[0]
+					decks: decks,
+					selectedDeck: decks[0]
 				});
 
-				this.retrieveCards(decks.data[0]._id);
+				this.retrieveCards(decks[0]._id);
 			}.bind(this));
 	}
 
@@ -84,6 +84,16 @@ class MainPage extends Component {
 		this.retrieveCards(selectedDeck._id);
 	}
 
+	toggleSaved() {
+		axios.post('/api/addsaved', {
+			list_id: this.state.selectedDeck._id
+			},
+			Auth.setHeader())
+			.then(function(response) {
+				console.log('user list saved', response);
+			});
+	}
+
 	render() {
 		return (
 			<div>
@@ -92,7 +102,7 @@ class MainPage extends Component {
 				<div onClick={ () => this.retrieveDecks('saved') }>Saved Lists</div>
 				<div onClick={ () => this.retrieveDecks('public') }>Public Lists</div>
 				<DeckList type={ this.state.type } decks={ this.state.decks } makeActiveDeck={ this.makeActiveDeck } />
-				<CardList deckId={ this.state.selectedDeck._id } cards={ this.state.cards } />
+				<CardList deckId={ this.state.selectedDeck._id } cards={ this.state.cards } toggleSaved={ this.toggleSaved } />
 			</div>
 		)
 	}

@@ -83,19 +83,32 @@ router.get('/savedlists', function(req, res, next) {
 	return UserList.find({
 		user_id: userId
 	})
+	.select('list_id')
 	.populate('list_id')
 		.exec(function(err, lists) {
+			console.log(lists);
 			res.json(lists);
 		})
 });
 
 router.get('/lists/:list_id', function(req, res, next) {
-	var listId = req.params.list_id;
+	const userId = req.user_id;
+	const listId = req.params.list_id;
 
 	return List.findById(listId)
 		.populate('cards')
 		.exec(function(err, list) {
-			res.json(list);
+			return UserList.find({
+				$and: [{
+					user_id: userId
+				}, {
+					list_id: listId
+				}]
+			})
+			.exec(function(err, saved) {
+				console.log(saved);
+				res.json(list);
+			})
 		});
 });
 
@@ -136,6 +149,21 @@ router.post('/addcard', function(req, res, next) {
 			.exec(function(err, result) {
 				res.json(newEntry);
 			})
+	});
+});
+
+router.post('/addsaved', function(req, res, next) {
+	const listId = req.body.list_id;
+	const userId = req.user_id;
+
+	var newUserList = new UserList({
+		user_id: userId,
+		list_id: listId
+	});
+
+	newUserList.save(function(err, newEntry) {
+		if (err) return err;
+		res.send(newEntry);
 	});
 });
 
