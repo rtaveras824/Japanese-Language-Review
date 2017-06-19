@@ -97,6 +97,16 @@ const seedCards = [
 	}
 ];
 
+const seedUserLists = [
+	{
+		_id: ObjectId('5863f68da5a1ac0ecc852400'),
+		user_id: ObjectId('5863f68da5a1ac0ecc852001'),
+		list_id: ObjectId('5863f68da5a1ac0ecc852557'),
+		created: new Date(),
+		updated: new Date()
+	}
+]
+
 const databaseUrl = 'japanese-language-review';
 const collections = ['lists', 'cards'];
 const db = mongojs(databaseUrl, collections);
@@ -135,6 +145,10 @@ seedLists.map(function(list) {
 
 seedCards.map(function(card) {
 	return db.cards.save(card);
+});
+
+seedUserLists.map(function(userList) {
+	return db.userlists.save(userList);
 });
 
 console.log('The End')

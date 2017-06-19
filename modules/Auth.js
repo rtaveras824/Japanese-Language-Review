@@ -20,6 +20,19 @@ class Auth {
 	static deauthenticateUser() {
 		localStorage.removeItem('token');
 	}
+
+	static setHeader() {
+		const config = {};
+		console.log('mounting');
+		if (this.isUserAuthenticated()) {
+			const token = Auth.getToken();
+			config.headers = {
+				"Authorization": `bearer ${token}`
+			};
+
+			return config;
+		}
+	}
 }
 
 export default Auth;

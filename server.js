@@ -20,6 +20,7 @@ mongoose.connection.on('error', (err) => {
 require('./models/User');
 require('./models/List');
 require('./models/Card');
+require('./models/UserList');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

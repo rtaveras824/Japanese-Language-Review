@@ -10,40 +10,61 @@ class MainPage extends Component {
 		super(props);
 
 		this.state = {
-			publicDecks: [],
-			privateDecks: [],
+			type: '',
+			decks: [],
 			selectedDeck: { _id: 1 },
 			cards: []
 		}
 
 		this.retrieveCards = this.retrieveCards.bind(this);
+		this.retrieveDecks = this.retrieveDecks.bind(this);
 		this.makeActiveDeck = this.makeActiveDeck.bind(this);
-		this.setHeader = this.setHeader.bind(this);
-	}
-
-	setHeader() {
-		const config = {};
-		console.log('mounting');
-		if (Auth.isUserAuthenticated()) {
-			const token = Auth.getToken();
-			config.headers = {
-				"Authorization": `bearer ${token}`
-			};
-
-			return config;
-		}
 	}
 
 	componentWillMount() {
-		axios.get('/api/lists', this.setHeader())
+		axios.get('/api/publiclists', Auth.setHeader())
 			.then(function(decks) {
 				console.log(decks);
+
 				this.setState({
-					publicDecks: decks.data.public,
-					privateDecks: decks.data.private,
-					selectedDeck: decks.data.public[0]
+					decks: decks.data,
+					selectedDeck: decks.data[0]
 				});
-				this.retrieveCards(decks.data.public[0]._id);
+
+				this.retrieveCards(decks.data[0]._id);
+				
+			}.bind(this));
+	}
+
+	retrieveDecks(type) {
+		let url;
+		switch(type) {
+			case 'public':
+				url = 'publiclists';
+				break;
+			case 'userprivate':
+				url = 'userprivatelists';
+				break;
+			case 'userpublic':
+				url = 'userpubliclists';
+				break;
+			case 'saved':
+				url = 'savedlists';
+				break;
+			default:
+				url = 'publiclists';
+				break;
+		}
+
+		axios.get(`/api/${url}`, Auth.setHeader())
+			.then(function(decks) {
+				this.setState({
+					type,
+					decks: decks.data,
+					selectedDeck: decks.data[0]
+				});
+
+				this.retrieveCards(decks.data[0]._id);
 			}.bind(this));
 	}
 
@@ -66,14 +87,11 @@ class MainPage extends Component {
 	render() {
 		return (
 			<div>
-				<div>Private</div>
-				<DeckList 
-					decks={ this.state.privateDecks }
-					makeActiveDeck={ this.makeActiveDeck } />
-				<div>Public</div>
-				<DeckList 
-					decks={ this.state.publicDecks }
-					makeActiveDeck={ this.makeActiveDeck } />
+				<div onClick={ () => this.retrieveDecks('userprivate') }>User Private Lists</div>
+				<div onClick={ () => this.retrieveDecks('userpublic') }>User Public Lists</div>
+				<div onClick={ () => this.retrieveDecks('saved') }>Saved Lists</div>
+				<div onClick={ () => this.retrieveDecks('public') }>Public Lists</div>
+				<DeckList type={ this.state.type } decks={ this.state.decks } makeActiveDeck={ this.makeActiveDeck } />
 				<CardList deckId={ this.state.selectedDeck._id } cards={ this.state.cards } />
 			</div>
 		)

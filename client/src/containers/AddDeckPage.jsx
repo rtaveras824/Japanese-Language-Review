@@ -19,20 +19,6 @@ class AddDeckPage extends Component {
 
 		this.changeForm = this.changeForm.bind(this);
 		this.processForm = this.processForm.bind(this);
-		this.setHeader = this.setHeader.bind(this);
-	}
-
-	setHeader() {
-		const config = {};
-		console.log('mounting');
-		if (Auth.isUserAuthenticated()) {
-			const token = Auth.getToken();
-			config.headers = {
-				"Authorization": `bearer ${token}`
-			};
-
-			return config;
-		}
 	}
 
 	changeForm(event) {
@@ -52,7 +38,7 @@ class AddDeckPage extends Component {
 	processForm(event) {
 		event.preventDefault();
 
-		axios.post('/api/addlist', this.state.deck, this.setHeader())
+		axios.post('/api/addlist', this.state.deck, Auth.setHeader())
 			.then(function(response) {
 				console.log(response);
 				this.setState({

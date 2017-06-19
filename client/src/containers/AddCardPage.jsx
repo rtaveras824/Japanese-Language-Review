@@ -21,28 +21,15 @@ class AddCardPage extends Component {
 		console.log('list id', this.props.match.params.deck_id);
 		this.processForm = this.processForm.bind(this);
 		this.processChange = this.processChange.bind(this);
-		this.setHeader = this.setHeader.bind(this);
 	}
 
 	componentWillMount() {
-		axios.get(`/api/lists/${ this.props.match.params.deck_id }`, this.setHeader())
+		axios.get(`/api/lists/${ this.props.match.params.deck_id }`, Auth.setHeader())
 			.then(function(response) {
 				this.setState({
 					cards: response.data.cards
 				})
 			}.bind(this));
-	}
-
-	setHeader() {
-		var config = {};
-		if (Auth.isUserAuthenticated()) {
-			var token = Auth.getToken();
-			config.headers = {
-				"Authorization": `bearer ${token}`
-			}
-		}
-
-		return config;
 	}
 
 	processChange(event) {
@@ -63,7 +50,7 @@ class AddCardPage extends Component {
 				console.log(response);
 				var cards = this.state.cards;
 				cards.push(response.data);
-				
+
 				this.setState({
 					cards
 				});

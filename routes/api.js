@@ -5,37 +5,88 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const List = mongoose.model('List');
 const Card = mongoose.model('Card');
+const UserList = mongoose.model('UserList');
 
-router.get('/lists', function(req, res, next) {
+// router.get('/lists', function(req, res, next) {
+// 	return List.find({
+// 		$or: [
+// 			{
+// 				$and: [{
+// 					author: ObjectId(req.user_id)
+// 				}, {
+// 					public: false
+// 				}]
+// 			},
+// 			{ public: true }
+// 		]
+// 	})
+// 		.exec(function(err, lists) {
+			
+// 			var publicSplitList = {
+// 				public: [],
+// 				private: []
+// 			};
+// 			lists.map((list, i) => {
+// 				if (list.public) {
+// 					publicSplitList.public.push(list);
+// 				} else {
+// 					publicSplitList.private.push(list);
+// 				}
+// 			});
+// 			console.log(publicSplitList);
+
+// 			res.json(publicSplitList);
+// 		});
+// });
+
+router.get('/userprivatelists', function(req, res, next) {
+	const userId = req.user_id;
+
 	return List.find({
-		$or: [
-			{
-				$and: [{
-					author: ObjectId(req.user_id)
-				}, {
-					public: false
-				}]
-			},
-			{ public: true }
-		]
+		$and: [{
+			author: userId,
+		}, {
+			public: false
+		}]
 	})
 		.exec(function(err, lists) {
-			
-			var publicSplitList = {
-				public: [],
-				private: []
-			};
-			lists.map((list, i) => {
-				if (list.public) {
-					publicSplitList.public.push(list);
-				} else {
-					publicSplitList.private.push(list);
-				}
-			});
-			console.log(publicSplitList);
-
-			res.json(publicSplitList);
+			res.json(lists);
 		});
+});
+
+router.get('/userpubliclists', function(req, res, next) {
+	const userId = req.user_id;
+
+	return List.find({
+		$and: [{
+			author: userId,
+		}, {
+			public: true
+		}]
+	})
+		.exec(function(err, lists) {
+			res.json(lists);
+		});
+});
+
+router.get('/publiclists', function(req, res, next) {
+	return List.find({
+		public: true
+	})
+		.exec(function(err, lists) {
+			res.json(lists);
+		});
+});
+
+router.get('/savedlists', function(req, res, next) {
+	const userId = req.user_id;
+	return UserList.find({
+		user_id: userId
+	})
+	.populate('list_id')
+		.exec(function(err, lists) {
+			res.json(lists);
+		})
 });
 
 router.get('/lists/:list_id', function(req, res, next) {
