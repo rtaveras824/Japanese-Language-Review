@@ -24,6 +24,7 @@ class EditDeckPage extends Component {
 		this.processCardForm = this.processCardForm.bind(this);
 		this.processEntireForm = this.processEntireForm.bind(this);
 		this.deleteDeck = this.deleteDeck.bind(this);
+		this.deleteCard = this.deleteCard.bind(this);
 	}
 
 	componentWillMount() {
@@ -110,6 +111,21 @@ class EditDeckPage extends Component {
 			}.bind(this));
 	}
 
+	deleteCard(cardIndex) {
+		let deck = this.state.deck;
+		let cardId = deck.cards[cardIndex]._id;
+		let config = Auth.setHeader();
+		config.data = { card_id: cardId }
+
+		axios.delete('/api/removecard', config)
+			.then(function(response) {
+				deck.cards.splice(cardIndex, 1);
+				this.setState({
+					deck
+				});
+			}.bind(this));
+	}
+
 	render() {
 		return (
 			<div>
@@ -119,7 +135,12 @@ class EditDeckPage extends Component {
 				{
 					this.state.deck.cards.map((card, i) => {
 						return (
-							<CardEditForm key={ card._id } id={ i } card={ card } onChange={ this.changeCardForm } onSubmit={ this.processCardForm }/>
+							<CardEditForm 
+									key={ card._id } 
+									id={ i } card={ card } 
+									onChange={ this.changeCardForm } 
+									onSubmit={ this.processCardForm }
+									deleteCard={ this.deleteCard } />
 						)
 					})
 				}

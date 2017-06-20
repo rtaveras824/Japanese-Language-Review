@@ -205,7 +205,15 @@ router.delete('/removelist', function(req, res, next) {
 });
 
 router.delete('/removecard', function(req, res, next) {
+	const cardId = req.body.card_id;
+	const userId = req.user_id;
 
+	return Card.remove({
+		_id: cardId
+	})
+		.exec(function(err, response) {
+			res.send(response);		
+		});
 });
 
 router.delete('/removesaved/', function(req, res, next) {
