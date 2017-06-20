@@ -204,4 +204,17 @@ router.post('/update/card', function(req, res, next) {
 		});
 });
 
+router.post('/update/entireform', function(req, res, next) {
+	return List.findByIdAndUpdate(req.body._id, { $set: { name: req.body.name }})
+		.exec(function(response) {
+			const cards = req.body.cards;
+			cards.map(function(card, i) {
+				return Card.findByIdAndUpdate(card._id, { $set: card })
+					.exec(function(response) {
+						console.log(response);
+					});
+			})
+		})
+});
+
 module.exports = router;

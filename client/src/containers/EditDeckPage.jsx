@@ -20,6 +20,7 @@ class EditDeckPage extends Component {
 		this.changeDeckName = this.changeDeckName.bind(this);
 		this.processDeckNameForm = this.processDeckNameForm.bind(this);
 		this.processCardForm = this.processCardForm.bind(this);
+		this.processEntireForm = this.processEntireForm.bind(this);
 	}
 
 	componentWillMount() {
@@ -87,7 +88,10 @@ class EditDeckPage extends Component {
 		console.log('entire form');
 		let deck = this.state.deck;
 
-
+		axios.post('/api/update/entireform', deck, Auth.setHeader())
+			.then(function(response) {
+				console.log(response);
+			});
 	}
 
 	render() {
@@ -101,7 +105,7 @@ class EditDeckPage extends Component {
 						)
 					})
 				}
-				<button>Submit</button>
+				<button onClick={ this.processEntireForm }>Submit</button>
 			</div>
 		);
 	}
