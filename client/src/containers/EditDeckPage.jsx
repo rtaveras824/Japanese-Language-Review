@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import Auth from '../../../modules/Auth';
 
@@ -10,6 +11,7 @@ class EditDeckPage extends Component {
 		super(props);
 
 		this.state = {
+			redirect: false,
 			deck: {
 				name: '',
 				cards: []
@@ -21,6 +23,7 @@ class EditDeckPage extends Component {
 		this.processDeckNameForm = this.processDeckNameForm.bind(this);
 		this.processCardForm = this.processCardForm.bind(this);
 		this.processEntireForm = this.processEntireForm.bind(this);
+		this.deleteDeck = this.deleteDeck.bind(this);
 	}
 
 	componentWillMount() {
@@ -61,7 +64,7 @@ class EditDeckPage extends Component {
 		console.log('deck form');
 		let deck = this.state.deck;
 
-		axios.post('/api/update/deckname', deck, Auth.setHeader())
+		axios.put('/api/update/deckname', deck, Auth.setHeader())
 			.then(function(response) {
 				console.log(response);
 			}.bind(this));
@@ -76,7 +79,7 @@ class EditDeckPage extends Component {
 
 		let card = this.state.deck.cards[cardIndex];
 
-		axios.post('/api/update/card', card, Auth.setHeader())
+		axios.put('/api/update/card', card, Auth.setHeader())
 			.then(function(response) {
 				console.log(response);
 			}.bind(this));
@@ -88,15 +91,30 @@ class EditDeckPage extends Component {
 		console.log('entire form');
 		let deck = this.state.deck;
 
-		axios.post('/api/update/entireform', deck, Auth.setHeader())
+		axios.put('/api/update/entireform', deck, Auth.setHeader())
 			.then(function(response) {
 				console.log(response);
 			});
 	}
 
+	deleteDeck() {
+		let config = Auth.setHeader();
+		config.data = { list_id: this.state.deck._id }
+
+		axios.delete('/api/removelist', config)
+			.then(function(response) {
+				console.log(response);
+				this.setState({
+					redirect: true
+				});
+			}.bind(this));
+	}
+
 	render() {
 		return (
 			<div>
+				{ this.state.redirect && <Redirect to='/' push />}
+				<div onClick={ this.deleteDeck }>Delete Deck</div>
 				<DeckNameEditForm name={ this.state.deck.name } onChange={ this.changeDeckName } onSubmit={ this.processDeckNameForm } />
 				{
 					this.state.deck.cards.map((card, i) => {

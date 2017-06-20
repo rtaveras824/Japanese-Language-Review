@@ -171,9 +171,50 @@ router.post('/addsaved', function(req, res, next) {
 	});
 });
 
-router.post('/removesaved', function(req, res, next) {
+router.delete('/removelist', function(req, res, next) {
 	const listId = req.body.list_id;
 	const userId = req.user_id;
+
+	console.log(listId);
+	console.log(userId);
+
+	return List.findById(listId)
+		.select('cards')
+		.exec(function(err, list) {
+			return List.remove({
+				$and: [{
+					author: userId
+				}, {
+					_id: listId
+				}]
+			})
+				.exec(function(response) {
+					console.log('deleted list', response);
+					list.cards.map(function(cardId, i) {
+						return Card.remove({
+							_id: cardId
+						})
+							.exec(function(err, cardResponse) {
+
+							})
+					});
+					res.send(response);
+				});
+			});
+	
+});
+
+router.delete('/removecard', function(req, res, next) {
+
+});
+
+router.delete('/removesaved/', function(req, res, next) {
+	const listId = req.body.list_id;
+	const userId = req.user_id;
+
+	console.log('delete');
+	console.log('user', userId);
+	console.log(listId);
 
 	return UserList.remove({
 		$and: [{
@@ -182,31 +223,31 @@ router.post('/removesaved', function(req, res, next) {
 			list_id: listId
 		}]
 	})
-		.exec(function(response) {
+		.exec(function(err, response) {
 			console.log('deleted', response);
 			res.send(response);
 		});
 });
 
-router.post('/update/deckname', function(req, res, next) {
+router.put('/update/deckname', function(req, res, next) {
 	return List.findByIdAndUpdate(req.body._id, { $set: { name: req.body.name }})
-		.exec(function(response) {
+		.exec(function(err, response) {
 			console.log(response);
 			res.send(response);
 		});
 });
 
-router.post('/update/card', function(req, res, next) {
+router.put('/update/card', function(req, res, next) {
 	return Card.findByIdAndUpdate(req.body._id, { $set: req.body })
-		.exec(function(response) {
+		.exec(function(err, response) {
 			console.log(response);
 			res.send(response);
 		});
 });
 
-router.post('/update/entireform', function(req, res, next) {
+router.put('/update/entireform', function(req, res, next) {
 	return List.findByIdAndUpdate(req.body._id, { $set: { name: req.body.name }})
-		.exec(function(response) {
+		.exec(function(err, response) {
 			const cards = req.body.cards;
 			cards.map(function(card, i) {
 				return Card.findByIdAndUpdate(card._id, { $set: card })

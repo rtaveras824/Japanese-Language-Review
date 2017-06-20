@@ -87,10 +87,11 @@ class MainPage extends Component {
 
 	toggleSaved() {
 		if (this.state.saved) {
-			axios.post('/api/removesaved', {
-				list_id: this.state.selectedDeck._id
-				},
-				Auth.setHeader())
+			let config = Auth.setHeader();
+			config.data = { list_id: this.state.selectedDeck._id }
+			console.log(config);
+			axios.delete('/api/removesaved',
+				config)
 				.then(function(response) {
 					console.log('saved removed');
 					this.setState({
