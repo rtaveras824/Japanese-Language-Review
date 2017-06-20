@@ -188,4 +188,20 @@ router.post('/removesaved', function(req, res, next) {
 		});
 });
 
+router.post('/update/deckname', function(req, res, next) {
+	return List.findByIdAndUpdate(req.body._id, { $set: { name: req.body.name }})
+		.exec(function(response) {
+			console.log(response);
+			res.send(response);
+		});
+});
+
+router.post('/update/card', function(req, res, next) {
+	return Card.findByIdAndUpdate(req.body._id, { $set: req.body })
+		.exec(function(response) {
+			console.log(response);
+			res.send(response);
+		});
+});
+
 module.exports = router;

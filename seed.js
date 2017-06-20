@@ -78,6 +78,7 @@ const seedCards = [
 		_id: ObjectId('5863f68da5a1ac0ecc852543'),
 		side_a: 'ジェイクに足を踏んでごめんって言うつもりなの？',
 		side_b: 'Are you going to say sorry to Jake for stepping on his foot?',
+		photo_url: '',
 		created: new Date(),
 		updated: new Date()
 	},
@@ -85,6 +86,7 @@ const seedCards = [
 		_id: ObjectId('5863f68da5a1ac0ecc852544'),
 		side_a: 'あんたの声、ひどいな！風邪でもひいてるの？それとも実は男だったり？',
 		side_b: 'Your voice sounds awful! Do you have a cold or are you actually a dude?',
+		photo_url: '',
 		created: new Date(),
 		updated: new Date()
 	},
@@ -92,6 +94,7 @@ const seedCards = [
 		_id: ObjectId('5863f68da5a1ac0ecc852545'),
 		side_a: 'それは全部です。',
 		side_b: 'That\'s everything.',
+		photo_url: '',
 		created: new Date(),
 		updated: new Date()
 	}

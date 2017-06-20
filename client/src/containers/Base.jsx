@@ -9,6 +9,7 @@ import SignUpPage from './SignUpPage.jsx';
 import AddDeckPage from './AddDeckPage.jsx';
 import AddCardPage from './AddCardPage.jsx';
 import CardPage from './CardPage.jsx';
+import EditDeckPage from './EditDeckPage.jsx';
 
 const AuthButton = withRouter(({ history }) => {
 	function deauthAndRedirect() {
@@ -54,6 +55,7 @@ class Base extends Component {
 					<Route path='/adddeck' component={ AddDeckPage } />
 					<Route path='/addcard/:deck_id' component={ AddCardPage } />
 					<Route path='/cards/:deck_id/:card_number' component= { CardPage } />
+					<Route path='/editlist/:deck_id' component={ EditDeckPage } />
 				</Switch>
 			</div>
 		)

@@ -18,7 +18,7 @@ const CardList = ({ deckId, cards, saved, toggleSaved }) => {
 			):(
 				<button onClick={ toggleSaved }>Save</button>
 			)}
-			
+			<Link to={`/editlist/${ deckId }`}>Edit Deck</Link>
 			<Link to={`/addcard/${ deckId }`}>Add Cards</Link>
 			{ cardItems }
 		</div>

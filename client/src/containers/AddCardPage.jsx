@@ -45,7 +45,7 @@ class AddCardPage extends Component {
 	processForm(event) {
 		event.preventDefault();
 
-		axios.post('/api/addcard', this.state.card, this.setHeader())
+		axios.post('/api/addcard', this.state.card, Auth.setHeader())
 			.then((response) => {
 				console.log(response);
 				var cards = this.state.cards;
